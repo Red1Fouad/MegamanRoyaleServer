@@ -1,4 +1,6 @@
-const server = require('http').createServer();
+const http = require('http');
+const ip = require('ip');
+const server = http.createServer();
 const port = process.env.PORT || 25561; // Use the port provided by the environment or fallback to 25561
 
 const io = require('socket.io')(server, {
@@ -10,10 +12,12 @@ const io = require('socket.io')(server, {
 });
 
 // Listen for incoming connections
-server.listen(port, (err) => {
-    if (err) throw err;
-    console.log(`Server is running on port ${port}`);
+server.listen(port, () => {
+    const ipAddress = ip.address();
+    console.log(`Server is running on http://${ipAddress}:${port}`);
 });
+
+
 
 
 
