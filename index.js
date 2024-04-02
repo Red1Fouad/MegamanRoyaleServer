@@ -1,5 +1,4 @@
 const http = require('http');
-const ip = require('ip');
 const server = http.createServer();
 const port = process.env.PORT || 25561; // Use the port provided by the environment or fallback to 25561
 
@@ -11,11 +10,14 @@ const io = require('socket.io')(server, {
     }
 });
 
+// Get the public URL from environment variables
+const publicURL = process.env.RENDER_EXTERNAL_HOSTNAME || `localhost:${port}`;
+
 // Listen for incoming connections
 server.listen(port, () => {
-    const ipAddress = ip.address();
-    console.log(`Server is running on http://${ipAddress}:${port}`);
+    console.log(`Server is running on http://${publicURL}`);
 });
+
 
 
 
