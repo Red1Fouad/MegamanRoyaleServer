@@ -1,29 +1,18 @@
-/*const fs = require('fs');
-var app = require('express')();
-const https = require('https');
-
-var server = https.createServer({ key: fs.readFileSync('privkey.pem'), cert: fs.readFileSync('cert.pem'), ca: fs.readFileSync('chain.pem'), requestCert: false, rejectUnauthorized: false },app);
-server.listen(25561);
-var io = require('socket.io').listen(server);
-
-
-*/
-
-
 const server = require('http').createServer();
-const port = 25561;
+const port = process.env.PORT || 25561; // Use the port provided by the environment or fallback to 25561
+
 const io = require('socket.io')(server, {
     cors: {
-        origin: "http://127.0.0.1:51264",
+        origin: "*", // Allow connections from all origins, adjust as needed
         methods: ["GET", "POST"],
-        credentials: true  // Add this line to allow credentials
+        credentials: true
     }
 });
 
 // Listen for incoming connections
 server.listen(port, (err) => {
     if (err) throw err;
-    console.log(`Listening on port ${port}`);
+    console.log(`Server is running on port ${port}`);
 });
 
 
