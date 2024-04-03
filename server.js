@@ -1,24 +1,20 @@
+const fs = require('fs');
+const app = require('express')();
 const http = require('http');
-const server = http.createServer();
-const port = process.env.PORT || 25561; // Use the port provided by the environment or fallback to 25561
 
-const io = require('socket.io')(server, {
-    cors: {
-        origin: "*", // Allow connections from all origins, adjust as needed
-        methods: ["GET", "POST"],
-        credentials: true
-    }
+// Define the IP address dynamically
+const ipAddress = process.env.IP_ADDRESS || '127.0.0.1';
+
+// Define the port using environment variable with a default value
+const port = process.env.PORT || 25560;
+
+const server = http.createServer(app);
+
+server.listen(port, ipAddress, () => {
+    console.log(`Server listening on ${ipAddress}:${port}`);
 });
 
-// Get the public URL from environment variables
-const publicURL = process.env.RENDER_EXTERNAL_HOSTNAME || `localhost:${port}`;
-
-// Listen for incoming connections
-server.listen(port, () => {
-    console.log(`Server is running on http://${publicURL}`);
-});
-
-
+const io = require('socket.io').listen(server);
 
 
 
@@ -302,14 +298,14 @@ class Room {
   constructor() {
     this.id = roomId++;
     console.log(`Room created with ID "${this.id}"`);
-    this.targetPlayers = 30;
+    this.targetPlayers = 2;
     this.players = [];
     this.inProgress = false;
     this.winPosition = 0;
     this.totalPlayers = 0;
     this.targetReadyPercent = .55;
     this.lobbyTimerStarted = false;
-    this.lobbyTimerLength = 90000; //how many ms until the game starts?
+    this.lobbyTimerLength = 45 * 1000; //how many ms until the game starts?
     this.lobbyTimerStart = undefined;
     this.bulletCreate = [];
     this.bulletDelete = [];
