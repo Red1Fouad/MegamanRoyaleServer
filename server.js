@@ -3,7 +3,7 @@ const app = require('express')();
 const http = require('http');
 
 // Define the IP address dynamically
-const ipAddress = process.env.IP_ADDRESS || '127.0.0.1';
+const ipAddress = process.env.IP || '127.0.0.1';
 
 // Define the port using environment variable with a default value
 const port = process.env.PORT || 25560;
