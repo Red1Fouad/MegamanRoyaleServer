@@ -13,7 +13,7 @@ server.listen(PORT, () => {
 var io = require('socket.io').listen(server);
 
 var cors = require('cors');    
-app.use(cors({credentials: true, origin: 'http://127.0.0.1:51264'}));
+app.use(cors({ credentials: true, origin: '*' }));
 
 var targetPlayersNum = 30; // Set targetPlayersNum to 30
 
