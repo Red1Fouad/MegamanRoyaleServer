@@ -3,15 +3,11 @@ const app = require('express')();
 const http = require('http');
 const cors = require('cors');
 
-// CORS configuration with credentials
+// CORS configuration with specific origin and credentials
 app.use(cors({
-  origin: 'http://127.0.0.1:51264',
+  origin: 'http://localhost:51264',
   credentials: true // Allow credentials
 }));
-
-app.get('/with-cors', cors(), (req, res, next) => {
-  res.json({ msg: 'WHOAH with CORS it works! 🔝 🎉' })
-})
 
 const server = http.createServer(app);
 const PORT = process.env.PORT || 25560;
