@@ -1,7 +1,13 @@
 const fs = require('fs');
-var app = require('express')();
+const app = require('express')();
 const http = require('http');
 const cors = require('cors');
+
+// CORS configuration with credentials
+app.use(cors({
+  origin: 'http://127.0.0.1:51264',
+  credentials: true // Allow credentials
+}));
 
 app.get('/with-cors', cors(), (req, res, next) => {
   res.json({ msg: 'WHOAH with CORS it works! 🔝 🎉' })
@@ -16,6 +22,7 @@ server.listen(PORT, () => {
 });
 
 var io = require('socket.io').listen(server);
+
 
 var targetPlayersNum = 30; // Set targetPlayersNum to 30
 
