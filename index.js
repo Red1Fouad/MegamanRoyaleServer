@@ -3,11 +3,17 @@ const app = require('express')();
 const http = require('http');
 const cors = require('cors');
 
-// CORS configuration with specific origin and credentials
-app.use(cors({
-  origin: 'http://localhost:51264',
-  credentials: true // Allow credentials
-}));
+const blacklist = ['http://example3.com'];
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (blacklist.indexOf(origin) !== -1) {
+      callback(new Error('Not allowed by CORS'));
+    } else {
+      callback(null, true);
+    }
+  }
+};
+
 
 const server = http.createServer(app);
 const PORT = process.env.PORT || 25560;
