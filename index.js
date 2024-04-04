@@ -3,27 +3,32 @@ const app = require('express')();
 const http = require('http');
 const cors = require('cors');
 
-const blacklist = ['http://example3.com'];
+const whitelist = ['http://127.0.0.1:51264', '127.0.0.1:51264','127.0.0.1'];
 const corsOptions = {
   origin: function (origin, callback) {
-    if (blacklist.indexOf(origin) !== -1) {
-      callback(new Error('Not allowed by CORS'));
-    } else {
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
+      // Allow requests with no origin (like mobile apps or curl requests)
       callback(null, true);
+    } else {
+      // Disallow requests from origins not in the whitelist
+      callback(new Error('Not allowed by CORS'));
     }
-  }
+  },
+  credentials: true // Allow credentials to be included in the request
 };
 
+app.use(cors(corsOptions));
 
 const server = http.createServer(app);
 const PORT = process.env.PORT || 25560;
 
 server.listen(PORT, () => {
-    const address = server.address(); // Get server address
+    const address = server.address();
     console.log(`Server listening on ${address.address}:${address.port}`);
 });
 
 var io = require('socket.io').listen(server);
+
 
 
 var targetPlayersNum = 30; // Set targetPlayersNum to 30
