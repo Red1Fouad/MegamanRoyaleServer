@@ -3,9 +3,9 @@ var app = require('express')();
 const http = require('http');
 const cors = require('cors');
 
-app.use(cors({
-  origin: 'http://127.0.0.1:51264' // Change this to your local development environment URL
-}));
+app.get('/with-cors', cors(), (req, res, next) => {
+  res.json({ msg: 'WHOAH with CORS it works! 🔝 🎉' })
+})
 
 const server = http.createServer(app);
 const PORT = process.env.PORT || 25560;
