@@ -67,6 +67,7 @@ class Player {
 		this.w = data.w; //weapon
 		this.a = 1; // alive/spectate
 		this.e = data.e; //dabbing
+		this.c = data.c; //costume
 		this.playersToCreate = []; //all players in this array will be sent to the client then destroyed(how violent!)
 		this.bulletsToCreate = [];
 		this.playersToDestroy = [];
@@ -541,6 +542,7 @@ io.sockets.on('connection', (client) => {
 			r: -4, //room
 			w: 0, //weapon
 			e: 0, //dabbing
+			c: 0, //costume
 			a: 1 //alive, this is false if game over/spectating.
 		});
 		player.room = myServer.getCurrentRoom();
@@ -614,6 +616,7 @@ io.sockets.on('connection', (client) => {
 		player.r = data.p.r;
 		player.w = data.p.w;
 		player.e = data.p.e;
+		player.c = data.p.c;
 		//console.log(`updated player ${player.username}\'s position! x = ${player.x}`)
 	  }
 	  if(data.bc != "" && data.bc != undefined && player != undefined){ //bullet create
